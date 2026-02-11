@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 int main(int argc, char *argv[]) {
   setbuf(stdout, NULL);
   char command[1024];
 
-  while(1)
+  while(true)
 {  // Flush after every printf
   
 
