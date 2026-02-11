@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
   printf("$ ");
   fgets(command, sizeof(command), stdin);
   command[strcspn(command, "\n")] = '\0';
-  if(~strcmp(command, "exit")){
+  if(strcmp(command, "exit")){
     break;
   }
   printf("%s: command not found\n", command);}
