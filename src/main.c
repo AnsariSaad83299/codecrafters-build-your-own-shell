@@ -10,8 +10,7 @@ int main(int argc, char *argv[]) {
   printf("$ ");
   char command[1024];
   fgets(command, sizeof(command), stdin);
-  size_t idx = strcspn(command, "\n");
-  command[idx] = '\0';
+  command[strcspn(command, "\n")] = '\0';
   printf("%s: command not found", command);
 
 
