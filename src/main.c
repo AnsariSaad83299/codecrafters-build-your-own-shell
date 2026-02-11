@@ -22,12 +22,20 @@ int main(int argc, char *argv[]) {
       break;
     }
     else if((strcmp(command, "echo") == 0) && (args != NULL)){
-      //printf("\n");
+
       while(args != NULL){
         printf("%s ", args);
         args = strtok(NULL, " ");
       }
       printf("\n");
+    }
+    else if(strcmp(command, "type")){
+      if (strcmp(args, "echo") == 0 || strcmp(args, "exit") == 0 || strcmp(command, "type") == 0){
+        printf("%s is a shell builtin\n", args);
+      }
+      else{
+        printf("%s: not found\n", args);
+      }
     }
     else{
       printf("%s: command not found\n", command);
