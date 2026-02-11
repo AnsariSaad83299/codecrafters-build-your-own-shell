@@ -22,9 +22,9 @@ int main(int argc, char *argv[]) {
       break;
     }
     else if((strcmp(command, "echo") == 0) && (args != NULL)){
-      printf("\n");
+      //printf("\n");
       while(args != NULL){
-        printf("%s", args);
+        printf("%s ", args);
         args = strtok(NULL, " ");
       }
       printf("\n");
