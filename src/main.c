@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
       printf("\n");
     }
     else if(strcmp(command, "type") == 0){
-      if ((strcmp(args, "echo") == 0) || (strcmp(args, "exit")) == 0 || (strcmp(args, "type") == 0)){
+      if (strcmp(args, "echo") == 0 || strcmp(args, "exit") == 0 || strcmp(args, "type") == 0){
         printf("%s is a shell builtin\n", args);
       }
       else{
