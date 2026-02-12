@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <unistd.h>
 
 int main(int argc, char *argv[]) {
   setbuf(stdout, NULL);
@@ -36,6 +37,18 @@ int main(int argc, char *argv[]) {
         printf("%s is a shell builtin\n", args);
       }
       else{
+    
+        char *dir = strtok(getenv("PATH"), ";:");
+        while(dir != NULL){
+          char file_path[strlen(dir) + 1 + strlen(args) + 1];
+          snprintf(file_path, sizeof(file_path), "%s/%s", dir, args);
+          if(access(file_path, X_OK)){
+            printf("%s is %s\n", args, file_path);
+            continue;
+          }
+
+        }
+        
         printf("%s: not found\n", args);
       }
     }
