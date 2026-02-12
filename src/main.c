@@ -6,6 +6,8 @@
 int main(int argc, char *argv[]) {
   setbuf(stdout, NULL);
   char command_line[1024];
+  printf("PATH = %s\n\n", getenv("PATH"));
+
   
 
   while(true)
