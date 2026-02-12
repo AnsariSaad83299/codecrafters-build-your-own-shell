@@ -34,19 +34,26 @@ int main(int argc, char *argv[]) {
         printf("%s is a shell builtin\n", args);
       }
       else{
-    
-        char *dir = strtok(getenv("PATH"), ";:");
+        bool flag;
+        char *path = strdup(getenv("PATH"));
+        char *dir = strtok(path, ";:");
         while(dir != NULL){
           char file_path[strlen(dir) + 1 + strlen(args) + 1];
           snprintf(file_path, sizeof(file_path), "%s/%s", dir, args);
-          if(access(file_path, X_OK)){
+          if(access(file_path, X_OK) == 0){
             printf("%s is %s\n", args, file_path);
-            continue;
+            flag = true;
+            break;
           }
+          dir = strtok(NULL, ";:");
 
         }
+        if(!flag){
+          printf("%s: not found\n", args);
+
+        } 
         
-        printf("%s: not found\n", args);
+  
       }
     }
     else{
