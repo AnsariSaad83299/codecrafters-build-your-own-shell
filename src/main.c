@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
         printf("%s is a shell builtin\n", args);
       }
       else{
-        bool flag;
+        bool flag = false;
         char *path = strdup(getenv("PATH"));
         char *dir = strtok(path, ";:");
         while(dir != NULL){
