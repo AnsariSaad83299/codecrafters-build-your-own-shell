@@ -66,7 +66,7 @@ int main(int argc, char *argv[]){
                 printf("%s is a shell builtin\n", cmd_argv[1]);
             }
             else{
-                if(resolve_exe(cmd_argv[1], file_path, sizeof(file_path))) printf("%s is %s\n", name, file_path);
+                if(resolve_exe(cmd_argv[1], file_path, sizeof(file_path))) printf("%s is %s\n", cmd_argv[1], file_path);
 
                 else printf("%s: not found\n", cmd_argv[1]);
             }
