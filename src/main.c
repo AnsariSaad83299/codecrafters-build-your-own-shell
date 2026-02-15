@@ -78,20 +78,18 @@ int main(int argc, char *argv[]){
             pid_t pid = fork();
 
             if (pid < 0) {
-                perror("fork");
+                perror("fork failed\n");
                 continue;
             }
 
             if (pid == 0) {
-                // Child → replace process with program
+              
                 execv(file_path, cmd_argv);
 
-                // If execv returns, it failed
-                perror("execv");
+                perror("execv failed\n");
                 exit(1);
             }
             else {
-                // Parent → wait for child
                 int status;
                 waitpid(pid, &status, 0);
             }
