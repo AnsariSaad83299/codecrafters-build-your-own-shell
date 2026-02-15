@@ -1,105 +1,105 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
-#include <unistd.h>
-#include <sys/types.h>  
-#include <sys/wait.h>
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <string.h>
+// #include <stdbool.h>
+// #include <unistd.h>
+// #include <sys/types.h>  
+// #include <sys/wait.h>
 
-#define MAX_ARGS 64
+// #define MAX_ARGS 64
 
-int compare_strings(char *str1, char *str2){
-    if(strcmp(str1, str2) == 0) return 1;
-    else return 0;
-}
+// int compare_strings(char *str1, char *str2){
+//     if(strcmp(str1, str2) == 0) return 1;
+//     else return 0;
+// }
 
-int resolve_exe(char *name, char *file_path, size_t file_path_size){
-    char *path = strdup(getenv("PATH"));
-    char *dir = strtok(path, ":;");
-    while(dir != NULL){
-        snprintf(file_path, file_path_size, "%s/%s", dir, name);
-        if(access(file_path, X_OK) == 0){
-            printf("%s is %s\n", name, file_path);
-            free(path);
-            return 1;
-        }
-        dir = strtok(NULL, ":;");
-    }
-    free(path);
-    return 0;
-}
+// int resolve_exe(char *name, char *file_path, size_t file_path_size){
+//     char *path = strdup(getenv("PATH"));
+//     char *dir = strtok(path, ":;");
+//     while(dir != NULL){
+//         snprintf(file_path, file_path_size, "%s/%s", dir, name);
+//         if(access(file_path, X_OK) == 0){
+//             printf("%s is %s\n", name, file_path);
+//             free(path);
+//             return 1;
+//         }
+//         dir = strtok(NULL, ":;");
+//     }
+//     free(path);
+//     return 0;
+// }
 
-int main(int argc, char *argv[]){
-    setbuf(stdout, NULL);
-    char command_line[1024];
-    int cmd_argc;
-    char *cmd_argv[MAX_ARGS];
-    char file_path[4096];
+// int main(int argc, char *argv[]){
+//     setbuf(stdout, NULL);
+//     char command_line[1024];
+//     int cmd_argc;
+//     char *cmd_argv[MAX_ARGS];
+//     char file_path[4096];
 
-    while(true){
-        printf("$ ");
-        fgets(command_line, sizeof(command_line), stdin);
-        command_line[strcspn(command_line, "\n")] = '\0';
+//     while(true){
+//         printf("$ ");
+//         fgets(command_line, sizeof(command_line), stdin);
+//         command_line[strcspn(command_line, "\n")] = '\0';
 
-        cmd_argc = 0;
-        char *token = strtok(command_line, " ");
-        while(token != NULL && cmd_argc < (MAX_ARGS - 1)){
-            cmd_argv[cmd_argc] = token;
-            token = strtok(NULL, " ");
-            cmd_argc++;
-        }
-        cmd_argv[cmd_argc] = NULL; //execvp requires NULL terminated array
+//         cmd_argc = 0;
+//         char *token = strtok(command_line, " ");
+//         while(token != NULL && cmd_argc < (MAX_ARGS - 1)){
+//             cmd_argv[cmd_argc] = token;
+//             token = strtok(NULL, " ");
+//             cmd_argc++;
+//         }
+//         cmd_argv[cmd_argc] = NULL; //execvp requires NULL terminated array
 
-        if(cmd_argc == 0) continue; //empty input
+//         if(cmd_argc == 0) continue; //empty input
         
-        if(compare_strings(cmd_argv[0], "exit")) break;
+//         if(compare_strings(cmd_argv[0], "exit")) break;
 
-        if(compare_strings(cmd_argv[0], "echo")){
-            for(int i = 1; i < cmd_argc; i++){
-                printf("%s ", cmd_argv[i]);
-            }
-            printf("\n");
-            continue;
-        }
+//         if(compare_strings(cmd_argv[0], "echo")){
+//             for(int i = 1; i < cmd_argc; i++){
+//                 printf("%s ", cmd_argv[i]);
+//             }
+//             printf("\n");
+//             continue;
+//         }
 
-        if(compare_strings(cmd_argv[0], "type")){
-            if (compare_strings(cmd_argv[1], "echo") || compare_strings(cmd_argv[1], "exit") || compare_strings(cmd_argv[1], "type")){
-                printf("%s is a shell builtin\n", cmd_argv[1]);
-            }
-            else{
-                if(!resolve_exe(cmd_argv[1], file_path, sizeof(file_path))) printf("%s: not found\n", cmd_argv[1]);
-            }
-            continue;
-        }
+//         if(compare_strings(cmd_argv[0], "type")){
+//             if (compare_strings(cmd_argv[1], "echo") || compare_strings(cmd_argv[1], "exit") || compare_strings(cmd_argv[1], "type")){
+//                 printf("%s is a shell builtin\n", cmd_argv[1]);
+//             }
+//             else{
+//                 if(!resolve_exe(cmd_argv[1], file_path, sizeof(file_path))) printf("%s: not found\n", cmd_argv[1]);
+//             }
+//             continue;
+//         }
         
-        if (resolve_exe(cmd_argv[0], file_path, sizeof(file_path))) {
+//         if (resolve_exe(cmd_argv[0], file_path, sizeof(file_path))) {
 
-            pid_t pid = fork();
+//             pid_t pid = fork();
 
-            if (pid < 0) {
-                perror("fork");
-                continue;
-            }
+//             if (pid < 0) {
+//                 perror("fork");
+//                 continue;
+//             }
 
-            if (pid == 0) {
-                // Child → replace process with program
-                execv(file_path, cmd_argv);
+//             if (pid == 0) {
+//                 // Child → replace process with program
+//                 execv(file_path, cmd_argv);
 
-                // If execv returns, it failed
-                perror("execv");
-                exit(1);
-            }
-            else {
-                // Parent → wait for child
-                int status;
-                waitpid(pid, &status, 0);
-            }
+//                 // If execv returns, it failed
+//                 perror("execv");
+//                 exit(1);
+//             }
+//             else {
+//                 // Parent → wait for child
+//                 int status;
+//                 waitpid(pid, &status, 0);
+//             }
 
-        }
-        else {
-            printf("%s: command not found\n", cmd_argv[0]);
-        }
-    }
+//         }
+//         else {
+//             printf("%s: command not found\n", cmd_argv[0]);
+//         }
+//     }
     
-    return 0;
-}
+//     return 0;
+// }
