@@ -80,7 +80,7 @@ int main(int argc, char *argv[]){
             continue;
         }
 
-        if(compare_strings(cmd_argv[0], "cwd")){
+        if(compare_strings(cmd_argv[0], "cd")){
             if(!chdir(cmd_argv[1])) printf("cd: %s: No such file or directory", cmd_argv[1]);
         }
         
