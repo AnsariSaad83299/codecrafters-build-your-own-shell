@@ -81,7 +81,12 @@ int main(int argc, char *argv[]){
         }
 
         if(compare_strings(cmd_argv[0], "cd")){
-            if(compare_strings(cmd_argv[1], "~")) chdir(getenv("HOME"));
+            if(cmd_argv[1][0] == '~'){
+                char *home_path = getenv("HOME");
+                char full_path[strlen(home_path) + strlen(cmd_argv[1]) + 1];
+                snprintf(full_path, sizeof(full_path), "%s%s", home_path, cmd_argv[1] + 1);
+                chdir(full_path);
+            }
 
             else if(chdir(cmd_argv[1]) != 0) printf("cd: %s: No such file or directory\n", cmd_argv[1]);
 
