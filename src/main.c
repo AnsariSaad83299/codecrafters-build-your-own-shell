@@ -63,7 +63,7 @@ int main(int argc, char *argv[]){
         }
 
         if(compare_strings(cmd_argv[0], "type")){
-            if (compare_strings(cmd_argv[1], "echo") || compare_strings(cmd_argv[1], "exit") || compare_strings(cmd_argv[1], "type") || compare_strings(cmd_argv[1], "pwd")){
+            if (compare_strings(cmd_argv[1], "echo") || compare_strings(cmd_argv[1], "exit") || compare_strings(cmd_argv[1], "type") || compare_strings(cmd_argv[1], "pwd") || compare_strings(cmd_argv[1], "cd")){
                 printf("%s is a shell builtin\n", cmd_argv[1]);
             }
             else{
