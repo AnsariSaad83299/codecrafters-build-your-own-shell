@@ -19,7 +19,6 @@ int resolve_exe(char *name, char *file_path, size_t file_path_size){
     while(dir != NULL){
         snprintf(file_path, file_path_size, "%s/%s", dir, name);
         if(access(file_path, X_OK) == 0){
-            printf("%s is %s\n", name, file_path);
             free(path);
             return 1;
         }
@@ -67,7 +66,9 @@ int main(int argc, char *argv[]){
                 printf("%s is a shell builtin\n", cmd_argv[1]);
             }
             else{
-                if(!resolve_exe(cmd_argv[1], file_path, sizeof(file_path))) printf("%s: not found\n", cmd_argv[1]);
+                if(resolve_exe(cmd_argv[1], file_path, sizeof(file_path))) printf("%s is %s\n", name, file_path);
+
+                else printf("%s: not found\n", cmd_argv[1]);
             }
             continue;
         }
