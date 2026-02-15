@@ -79,6 +79,10 @@ int main(int argc, char *argv[]){
             printf("%s\n", current_working_directory);
             continue;
         }
+
+        if(compare_strings(cmd_argv[0], "cwd")){
+            if(!chdir(cmd_argv[1])) printf("cd: %s: No such file or directory", cmd_argv[1]);
+        }
         
         if (resolve_exe(cmd_argv[0], file_path, sizeof(file_path))) {
 
