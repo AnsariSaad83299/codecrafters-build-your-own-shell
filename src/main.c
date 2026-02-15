@@ -74,7 +74,7 @@ int main(int argc, char *argv[]){
             continue;
         }
 
-        if(compare_strings(argv[0], "pwd")){
+        if(compare_strings(cmd_argv[0], "pwd")){
             getcwd(current_working_directory, sizeof(current_working_directory));
             printf("%s\n", current_working_directory);
         }
