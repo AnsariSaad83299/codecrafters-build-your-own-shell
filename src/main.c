@@ -34,6 +34,7 @@ int main(int argc, char *argv[]){
     int cmd_argc;
     char *cmd_argv[MAX_ARGS];
     char file_path[4096];
+    char current_working_directory[4096];
 
     while(true){
         printf("$ ");
@@ -71,6 +72,11 @@ int main(int argc, char *argv[]){
                 else printf("%s: not found\n", cmd_argv[1]);
             }
             continue;
+        }
+
+        if(compare_strings(argv[0], "pwd")){
+            getcwd(current_working_directory, sizeof(current_working_directory));
+            printf("%s\n", current_working_directory);
         }
         
         if (resolve_exe(cmd_argv[0], file_path, sizeof(file_path))) {
