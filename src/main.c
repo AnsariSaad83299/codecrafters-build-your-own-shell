@@ -41,14 +41,55 @@ int main(int argc, char *argv[]){
         fgets(command_line, sizeof(command_line), stdin);
         command_line[strcspn(command_line, "\n")] = '\0';
 
-        cmd_argc = 0;
-        char *token = strtok(command_line, " ");
-        while(token != NULL && cmd_argc < (MAX_ARGS - 1)){
-            cmd_argv[cmd_argc] = token;
-            token = strtok(NULL, " ");
-            cmd_argc++;
+        // cmd_argc = 0;
+        // char *token = strtok(command_line, " ");
+        // while(token != NULL && cmd_argc < (MAX_ARGS - 1)){
+        //     cmd_argv[cmd_argc] = token;
+        //     token = strtok(NULL, " ");
+        //     cmd_argc++;
+        // }
+
+        char *start = command_line;
+        char *end = command_line;
+        bool in_single_quotes = false;
+        while (*end != '\0') {
+            if (*end == '\'') {
+                in_single_quotes = !in_single_quotes;
+                end++;
+                continue;
+            }
+
+            if (*end == ' ' && !in_single_quotes) {
+                *end = '\0';
+                cmd_argv[cmd_argc++] = start;
+
+                start = end + 1;
+                while (*start == ' ') start++;
+
+                end = start;
+                continue;
+            }
+
+            end++;
+        }
+        if (start < end) {
+            cmd_argv[cmd_argc++] = start;
         }
         cmd_argv[cmd_argc] = NULL; //execvp requires NULL terminated array
+
+        for (int i = 0; i < cmd_argc; i++) {
+            char *read = cmd_argv[i];
+            char *write = cmd_argv[i];
+
+            while (*read) {
+                if (*read == '\'') {
+                    read++;
+                } else {
+                    *write++ = *read++;
+                }
+            }
+            *write = '\0';
+        }
 
         if(cmd_argc == 0) continue; //empty input
         
