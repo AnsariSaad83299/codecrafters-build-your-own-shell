@@ -41,7 +41,7 @@ int main(int argc, char *argv[]){
         fgets(command_line, sizeof(command_line), stdin);
         command_line[strcspn(command_line, "\n")] = '\0';
 
-        // cmd_argc = 0;
+        cmd_argc = 0;
         // char *token = strtok(command_line, " ");
         // while(token != NULL && cmd_argc < (MAX_ARGS - 1)){
         //     cmd_argv[cmd_argc] = token;
