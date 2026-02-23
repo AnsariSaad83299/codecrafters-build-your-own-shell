@@ -100,6 +100,14 @@ int main(int argc, char *argv[]){
         bool in_double_quotes = false;
 
         while(*read){
+            if(*read == '\\' && !in_single_quotes && !in_double_quotes){
+                read++;
+                if(*read){
+                    *write++ = *read++;
+                }
+                continue;
+            }
+
             if(*read == '\'' && !in_double_quotes){
                 in_single_quotes = !in_single_quotes;
                 read++;
