@@ -43,56 +43,6 @@ int main(int argc, char *argv[]){
 
         cmd_argc = 0;
     
-        // char *start = command_line;
-        // char *end = command_line;
-        // bool in_single_quotes = false;
-        // bool in_double_quotes = false;
-
-        // while (*end != '\0') {
-        //     if (*end == '\'' && !in_double_quotes) {
-        //         in_single_quotes = !in_single_quotes;
-        //         end++;
-        //         continue;
-        //     }
-
-        //     if (*end == '"' && !in_single_quotes) {
-        //         in_double_quotes = !in_double_quotes;
-        //         end++;
-        //         continue;
-        //     }
-
-        //     if (*end == ' ' && !in_single_quotes && !in_double_quotes) {
-        //         *end = '\0';
-        //         cmd_argv[cmd_argc++] = start;
-
-        //         start = end + 1;
-        //         while (*start == ' ') start++;
-
-        //         end = start;
-        //         continue;
-        //     }
-
-        //     end++;
-        // }
-        // if (start < end) {
-        //     cmd_argv[cmd_argc++] = start;
-        // }
-        // cmd_argv[cmd_argc] = NULL; //execvp requires NULL terminated array
-
-        // for (int i = 0; i < cmd_argc; i++) {
-        //     char *read = cmd_argv[i];
-        //     char *write = cmd_argv[i];
-
-        //     while (*read) {
-        //         if (*read == '\'' || *read == '"') {
-        //             read++;
-        //         } else {
-        //             *write++ = *read++;
-        //         }
-        //     }
-        //     *write = '\0';
-        // }
-
         char *read = command_line;
         char *write = command_line;
         char *arg_start = NULL;
@@ -118,6 +68,15 @@ int main(int argc, char *argv[]){
             if(*read == '"' && !in_single_quotes){
                 in_double_quotes = !in_double_quotes;
                 read++;
+                continue;
+            }
+
+            if(*read == '\\' && in_double_quotes){
+                read++;
+                if(*read){
+                    if(!arg_start) arg_start = write;
+                    *write++ = *read++;
+                }
                 continue;
             }
 
