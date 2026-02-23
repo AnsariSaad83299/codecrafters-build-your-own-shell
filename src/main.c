@@ -115,7 +115,7 @@ int main(int argc, char *argv[]){
             if(*read == ' ' && !in_single_quotes && !in_double_quotes){
                 if(arg_start){
                     *write++ = '\0';
-                    cmd_argv[cmd_argc] = arg_start;
+                    cmd_argv[cmd_argc++] = arg_start;
                     arg_start = NULL;
                 }    
             
@@ -132,7 +132,7 @@ int main(int argc, char *argv[]){
 
         if(arg_start){
             *write++ = '\0';
-            cmd_argv[argc++] = arg_start;
+            cmd_argv[cmd_argc++] = arg_start;
         }
         cmd_argv[cmd_argc] = NULL; //execvp requires NULL terminated array
 
