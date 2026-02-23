@@ -20,8 +20,7 @@ This is a Unix-like shell implemented in **C** as part of the **CodeCrafters.io*
 - **External command execution**  
   Uses `fork()` and `execv()` to run external programs.
 
-- **Output redirection**  
-  Supports `>` and `1>` to redirect standard output to files.
+
 
 ---
 
