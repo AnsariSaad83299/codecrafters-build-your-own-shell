@@ -103,6 +103,7 @@ int main(int argc, char *argv[]){
             if(*read == '\\' && !in_single_quotes && !in_double_quotes){
                 read++;
                 if(*read){
+                    if(!arg_start) arg_start = write;
                     *write++ = *read++;
                 }
                 continue;
@@ -131,10 +132,8 @@ int main(int argc, char *argv[]){
                 continue;
             }
 
-            if(!arg_start){
-                arg_start = write;
-            }
-
+            if(!arg_start) arg_start = write;
+            
             *write++ = *read++;
         }
 
